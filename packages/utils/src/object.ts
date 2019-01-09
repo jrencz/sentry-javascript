@@ -11,17 +11,13 @@ interface ExtendedError extends Error {
 /**
  * Serializes the given object into a string.
  * Like JSON.stringify, but doesn't throw on circular references.
- * Based on a `json-stringify-safe` package and modified to handle Errors serialization.
- *
- * The object must be serializable, i.e.:
- *  - Only primitive types are allowed (object, array, number, string, boolean)
- *  - Its depth should be considerably low for performance reasons
+ * and modified to handle Errors and "unserializable values" serialization.
  *
  * @param object A JSON-serializable object.
  * @returns A string containing the serialized object.
  */
 export function serialize<T>(object: T): string {
-  return JSON.stringify(object);
+  return JSON.stringify(object, standardizer());
 }
 
 /**
